@@ -1,0 +1,28 @@
+{
+  "name": "schild",
+  "version": "0.0.1",
+  "description": "schild bietet eine API zu MySQL/MariaDB Schild-Datenbanken",
+  "main": "schild.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "schild",
+    "nrw",
+    "schule",
+    "datenbank",
+    "api"
+  ],
+  "author": "hmt",
+  "license": "ISC",
+  "dependencies": {
+    "knex": "^0.14.6",
+    "mysql": "^2.15.0",
+    "objection": "^1.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-jest": "^21.15.1",
+    "jest": "^22.4.3"
+  }
+}
