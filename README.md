@@ -25,22 +25,22 @@ const schild = require('schild')({
 
 Zwei Parameter sind vorgesehen, das Konfigurationsobjekt und, wenn man die Konfiguration aus einer komplexeren Datei einliest, der optionale Parameter zur Property-Auswahl. Im oberen Beispiel `development`. Wird kein zweiter Parameter angegeben, wählt schild.js als Standardeinstellung `NODE_ENV`.
 
-Momentan stellt schild.js ein paar Funktionen zur Verfügung, die zur Suche und Auswahl von einzelnen Schülern, bzw. Schülergruppen hilfreich sind:
+Momentan stellt schild.js ein paar Funktionen zur Verfügung, die zur Suche und Auswahl von einzelnen Schülern, bzw. Schülergruppen hilfreich sind. Als Rückgabewert, wird ein Promise geliefert:
 
 ```javascript
-schild.suche('Muster')
+schild.suche('Muster').then( res => console.log(res))
 // -> gibt ein Array mit Klassen- und Schülertreffern zurück. Jeweils als JSON
 
-schild.getSchueler(id)
+schild.getSchueler(id).then( res => console.log(res))
 // -> gibt einen Schüler als JSON-Objekt zurück mit der ID <id>
 
-schild.getKlasse(klasse, jahr, abschnitt)
+schild.getKlasse(klasse, jahr, abschnitt).then( res => console.log(res))
 // -> sucht alle Schüler, die im Jahr <jahr>, im Abschnitt <abschnitt> in Klasse <klasse> waren/sind
 
-schild.getSchule()
+schild.getSchule().then( res => console.log(res))
 // -> gibt ein JSON-Objekt mit allen in der Schultabelle abgelegten Daten zurück
 
-schild.getSchuelerfoto(id)
+schild.getSchuelerfoto(id).then( res => console.log(res))
 // -> gibt als base64-String ein Schülerfoto des Schülers mit der ID <id> zurück
 ```
 

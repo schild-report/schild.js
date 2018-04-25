@@ -1,7 +1,10 @@
 {
   "name": "schild",
-  "version": "0.0.1",
-  "description": "schild bietet eine API zu MySQL/MariaDB Schild-Datenbanken",
+  "version": "0.0.2",
+  "author": "hmt",
+  "repository": "hmt/schild.js",
+  "description": "schild.js bietet eine API zu MySQL/MariaDB Schild-Datenbanken",
+  "homepage": "https://github.com/hmt/schild.js",
   "main": "schild.js",
   "scripts": {
     "test": "jest"
