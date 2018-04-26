@@ -5,7 +5,7 @@ Bitte beachte, schild.js ist definitiv **beta**.
 schild.js bietet eine praktische Schnittstelle für Schild-Datenbanken, der offiziellen Schulverwaltungssoftware für NRW. Es sollte im Browser und unter node.js laufen.
 
 ## Anwendung
-schild.js ist ein Modul, dass eine Funktion zurückgibt, die als Parameter ein Datenbank-Konfigurationsobjekt erwartet:
+schild.js ist ein Modul, das eine Funktion zurückgibt, die als Parameter ein Datenbank-Konfigurationsobjekt erwartet:
 
 ```javascript
 const schild = require('schild')({
