@@ -56,12 +56,15 @@ let Schild = {
     const data = await Schuelerfoto.query()
       .where('Schueler_ID', id).first()
     return Buffer.from(data.Foto, 'binary').toString('base64')
+  },
+  connect: function (knexConfig, env = process.env.NODE_ENV) {
+    knex = Knex(knexConfig[env])
+    Model.knex(knex)
   }
 }
 
 module.exports = function (knexConfig, env = process.env.NODE_ENV) {
   if (knexConfig == null) knex.destroy()
-  knex = Knex(knexConfig[env])
-  Model.knex(knex)
+  Schild.connect(knexConfig, env)
   return Schild
 }
