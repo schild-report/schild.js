@@ -9,7 +9,7 @@ Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussF
 FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer
 */
 
-let Schild = {
+const Schild = {
   suche: async function (pattern) {
     const schueler = await Schueler.query()
       .where(function () { this.where('Geloescht', '-').andWhere('Gesperrt', '-') })
@@ -60,11 +60,22 @@ let Schild = {
   connect: function (knexConfig, env = process.env.NODE_ENV) {
     knex = Knex(knexConfig[env])
     Model.knex(knex)
+  },
+  disconnect: function () {
+    if (knex) knex.destroy()
+  },
+  testConnection: function () {
+    return knex.raw('select 1+1 as result')
+      .then(res => {
+        console.log('klappt')
+        return true
+      })
+      .catch(err => {
+        console.log(err)
+        console.log('nix da')
+        return false
+      })
   }
 }
 
-module.exports = function (knexConfig, env = process.env.NODE_ENV) {
-  if (knexConfig == null) knex.destroy()
-  Schild.connect(knexConfig, env)
-  return Schild
-}
+module.exports = Schild

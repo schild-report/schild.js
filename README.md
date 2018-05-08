@@ -5,10 +5,11 @@ Bitte beachte, schild.js ist definitiv **beta**.
 schild.js bietet eine praktische Schnittstelle für Schild-Datenbanken, der offiziellen Schulverwaltungssoftware für NRW. Es sollte im Browser und unter node.js laufen.
 
 ## Anwendung
-schild.js ist ein Modul, das eine Funktion zurückgibt, die als Parameter ein Datenbank-Konfigurationsobjekt erwartet:
+schild.js ist ein Modul, das mehrere Funktionen für Anfragen an die Schild-Datenbank zur Verfügung stellt:
 
 ```javascript
-const schild = require('schild')({
+const schild = require('schild')
+schild.connect({
   development: {
     client: 'mysql',
     useNullAsDefault: true,
@@ -28,6 +29,15 @@ Zwei Parameter sind vorgesehen, das Konfigurationsobjekt und, wenn man die Konfi
 Momentan stellt schild.js ein paar Funktionen zur Verfügung, die zur Suche und Auswahl von einzelnen Schülern, bzw. Schülergruppen hilfreich sind. Als Rückgabewert, wird ein Promise geliefert:
 
 ```javascript
+schild.connect(konfigurationsobjekt, [property-auswahl])
+// -> verbindet schild.js mit der Datenbank
+
+schild.disconnect()
+// -> trennt die Verbindung zur Datenbank
+
+schild.testConnection()
+// -> prüft, ob die Datenbankverbindung funktioniert. Gibt _true_ bzw _false_ zurück
+
 schild.suche('Muster').then( res => console.log(res))
 // -> gibt ein Array mit Klassen- und Schülertreffern zurück. Jeweils als JSON
 

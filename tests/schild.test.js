@@ -1,4 +1,5 @@
-const schild = require('../schild')({
+const schild = require('../schild')
+schild.connect({
   testing: {
     client: 'mysql',
     useNullAsDefault: true,
@@ -13,7 +14,7 @@ const schild = require('../schild')({
 }, 'testing')
 
 afterAll(() => {
-  require('../schild')()
+  schild.disconnect()
 })
 
 describe('schild Methoden', () => {
