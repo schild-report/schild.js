@@ -1,5 +1,5 @@
 const schild = require('../schild')
-schild.connect({
+const connectionString = {
   testing: {
     client: 'mysql',
     useNullAsDefault: true,
@@ -11,13 +11,19 @@ schild.connect({
       charset: 'utf8'
     }
   }
-}, 'testing')
+}
+
+schild.connect(connectionString, 'testing')
 
 afterAll(() => {
   schild.disconnect()
 })
 
 describe('schild Methoden', () => {
+  test('connection test', async () => {
+    expect.assertions(1)
+    expect(await schild.testConnection).toBeTruthy()
+  })
   test('suche', async () => {
     expect.assertions(2)
     expect((await schild.suche('C1'))[0]).toHaveProperty('id')

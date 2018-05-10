@@ -1,5 +1,5 @@
-const Knex = require('knex')
-const knexConfig = {
+const schild = require('../schild')
+const connectionString = {
   testing: {
     client: 'mysql',
     useNullAsDefault: true,
@@ -12,15 +12,13 @@ const knexConfig = {
     }
   }
 }
-const { Model } = require('objection')
+schild.connect(connectionString, 'testing')
 
-const knex = Knex(knexConfig.testing)
-Model.knex(knex)
 const {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
   FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang} = require('../models/Models')
 
 afterAll(() => {
-    knex.destroy()
+  schild.disconnect()
 })
 
 describe('Schüler Model', () => {

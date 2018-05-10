@@ -60,6 +60,7 @@ const Schild = {
   connect: function (knexConfig, env = process.env.NODE_ENV) {
     knex = Knex(knexConfig[env])
     Model.knex(knex)
+    return knex
   },
   disconnect: function () {
     if (knex) knex.destroy()
@@ -67,12 +68,12 @@ const Schild = {
   testConnection: function () {
     return knex.raw('select 1+1 as result')
       .then(res => {
-        console.log('klappt')
+        console.log('Testverbindung konnte aufgebaut werden')
         return true
       })
       .catch(err => {
         console.log(err)
-        console.log('nix da')
+        console.log('Testverbindung konnte nicht aufgebaut werden')
         return false
       })
   }
