@@ -114,7 +114,7 @@ class Abschnitt extends Model {
     if (this.lehrer) return `${this.lehrer.Vorname[0]}. ${this.lehrer.Nachname}`
   }
   get klassenlehrer_in () {
-    if (this.lehrer) return (this.lehrer.Geschlecht === 3 ? 'Klassenlehrer' : 'Klassenlehrerin')
+    if (this.lehrer) return (this.lehrer.Geschlecht === '3' ? 'Klassenlehrer' : 'Klassenlehrerin')
   }
   get schuljahr () {
     return `${this.Jahr}/${this.Jahr - 1999}`
@@ -268,6 +268,12 @@ class Schuelerfoto extends Model {
 }
 class Schule extends Model {
   static get tableName () { return 'eigeneschule' }
+  static get virtualAttributes () {
+    return ['schulleiter_in']
+  }
+  get schulleiter_in () {
+    return this.SchulleiterGeschlecht === 3 ? 'Schulleiter' : 'Schulleiterin'
+  }
 }
 class Nutzer extends Model {
   static get tableName () { return 'users' }

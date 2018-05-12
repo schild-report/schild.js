@@ -27,34 +27,42 @@ describe('Schüler Model', () => {
     await expect(Schueler.query().where('ID', 1).first()).resolves.toBeInstanceOf(Schueler)
   })
   test('akt_halbjahr geht nicht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.akt_halbjahr).toBeUndefined()
   })
   test('Anrede geht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.anrede).toEqual('Frau')
   })
   test('Schüler_in geht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.schueler_in).toEqual('Schülerin')
   })
   test('Studierende_r geht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.studierende_r).toEqual('Studierende')
   })
   test('berufsbezeichnung_mw geht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).eager('fachklasse').first()
     expect(s.berufsbezeichnung_mw).toEqual('Staatlich anerkannte Erzieherin - praxisintegrierte Form')
   })
   test('berufsbezeichnung_mw geht nicht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.berufsbezeichnung_mw).toEqual('Keine Fachklasse zugeordnet')
   })
   test('volljährig geht', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.volljaehrig).toEqual(true)
   })
   test('volljährig_bei geht', async () => {
+    expect.assertions(2)
     const s = await Schueler.query().where('ID', 1).first()
     expect(s.volljaehrig_bei('August 19, 2015 23:15:30')).toEqual(true)
     expect(s.volljaehrig_bei('August 19, 1996 23:15:30')).toEqual(true)
@@ -110,14 +118,19 @@ describe('Abschnitt-Model', () => {
     expect(s.abschnitte[0].noten[0]).toBeInstanceOf(Note)
   })
   test('V. Name des Klassenlehrers', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 1995).eager('abschnitte.[lehrer]').first()
     expect(s.abschnitte[0].v_name_klassenlehrer).toContain('B. De')
   })
   test('Klassenlehrer oder Klassenlehrerin', async () => {
-    const s = await Schueler.query().where('ID', 995).eager('abschnitte.[lehrer]').first()
+    expect.assertions(2)
+    const s = await Schueler.query().where('ID', 2405).eager('abschnitte.[lehrer]').first()
     expect(s.abschnitte[0].klassenlehrer_in).toEqual('Klassenlehrerin')
+    const ss = await Schueler.query().where('ID', 1598).eager('abschnitte.[lehrer]').first()
+    expect(ss.abschnitte[0].klassenlehrer_in).toEqual('Klassenlehrer')
   })
   test('Schuljahr im Format 2015/16 ausgeben', async () => {
+    expect.assertions(1)
     const s = await Schueler.query().where('ID', 995).eager('abschnitte').first()
     expect(s.abschnitte[0].schuljahr).toEqual('2014/15')
   })
@@ -182,8 +195,17 @@ describe('Versetzung-Model', () => {
   })
 })
 
+describe('Schule Model', () => {
+  test('Schulleiter_In geht', async () => {
+    expect.assertions(1)
+    const s = await Schule.query().where('ID', 1).first()
+    expect(s.schulleiter_in).toEqual('Schulleiter')
+  })
+})
+
 describe('alle Models durchtesten', () => {
   test('einmal checken', async () => {
+    expect.assertions(20)
     expect(await Schueler.query().where('ID', 1).first()).toBeInstanceOf(Schueler)
     expect(await Abschnitt.query().where('ID', 17).first()).toBeInstanceOf(Abschnitt)
     expect(await Fachklasse.query().where('ID', 1).first()).toBeInstanceOf(Fachklasse)
@@ -209,6 +231,7 @@ describe('alle Models durchtesten', () => {
 
 describe('JSON enthält alle virtuellen Properties', () => {
   test('alles durchchecken', async () => {
+    expect.assertions(3)
     const s = await Schueler.query().where('ID', 995).eager('[abschnitte, fachklasse, bk_abschluss, bk_abschluss_faecher]').first()
     expect(s.toJSON().schueler_in).toEqual('Schülerin')
     expect(s.toJSON().anrede).toEqual('Frau')
