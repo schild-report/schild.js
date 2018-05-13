@@ -45,7 +45,7 @@ const Schild = {
       // .where(function() {
       //     this.where('Status', 2).orWhere('Status', 8)
       //   })
-      .eager('[schueler.[abschnitte.[noten.fach, lehrer], bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]')
+      .eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse, versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]')
       .modifyEager('schueler', builder => { builder.orderBy('Name') })
       .first()
   },
