@@ -14,17 +14,19 @@ const Schild = {
     const schueler = await Schueler.query()
       .where(function () { this.where('Geloescht', '-').andWhere('Gesperrt', '-') })
       .andWhere(function () { this.where('Vorname', 'like', pattern + '%').orWhere('Name', 'like', pattern + '%') })
+      .select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID')
       .orderBy('AktSchuljahr', 'desc')
       .map(s => {
         return {
           value: `${s.Name}, ${s.Vorname} (${s.Klasse})`,
           status: s.Status,
-          jahr: s.Jahr,
+          jahr: s.AktSchuljahr,
           id: s.ID
         }
       })
     const klasse = await Versetzung.query()
       .where('Klasse', 'like', pattern + '%')
+      .select('Klasse')
       .orderBy('Klasse', 'desc')
       .map(k => {
         return { value: k.Klasse, id: k.Klasse }
