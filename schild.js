@@ -2,7 +2,7 @@
 const Knex = require('knex')
 let knex
 const { Model } = require('objection')
-const {Schueler, Schule, Schuelerfoto, Versetzung} = require('./models/Models')
+const {Schueler, Schule, Schuelerfoto, Versetzung, Nutzer} = require('./models/Models')
 /*
 Vorhandene Models:
 Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
@@ -58,6 +58,9 @@ const Schild = {
     const data = await Schuelerfoto.query()
       .where('Schueler_ID', id).first()
     return Buffer.from(data.Foto, 'binary').toString('base64')
+  },
+  getNutzer: function (username) {
+    return Nutzer.query().where('US_LoginName', username).first()
   },
   connect: function (knexConfig, env = process.env.NODE_ENV) {
     knex = Knex(knexConfig[env])

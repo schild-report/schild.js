@@ -47,4 +47,8 @@ describe('schild Methoden', () => {
     expect.assertions(1)
     expect(await schild.getSchuelerfoto(1234)).toContain('/9j/4')
   })
+  test('getNutzer', async () => {
+    expect.assertions(1)
+    expect(await schild.getNutzer('hmt')).toHaveProperty('US_Privileges', '$')
+  })
 })
