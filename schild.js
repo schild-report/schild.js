@@ -33,14 +33,14 @@ const Schild = {
       })
     return schueler.concat(klasse)
   },
-  getSchueler: async function (id) {
+  getSchueler: function (id) {
     return Schueler.query()
       .where('ID', id)
       .eager('[abschnitte.[noten.fach, lehrer], fachklasse, versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]')
       .modifyEager('abschnitte', builder => { builder.orderBy('ID') })
       .first()
   },
-  getKlasse: async function (klasse, jahr, abschnitt) {
+  getKlasse: function (klasse, jahr, abschnitt) {
     return Versetzung.query()
       .where('Klasse', klasse)
       // 2 = aktiv, 8 = mit Abschluss entlassen
@@ -51,7 +51,7 @@ const Schild = {
       .modifyEager('schueler', builder => { builder.orderBy('Name') })
       .first()
   },
-  getSchule: async function () {
+  getSchule: function () {
     return Schule.query().first()
   },
   getSchuelerfoto: async function (id) {
