@@ -104,6 +104,15 @@ class Schueler extends Model {
 }
 class Fachklasse extends Model {
   static get tableName () { return 'eigeneschule_fachklassen' }
+  static get relationMappings () {
+    return {
+      fach_gliederungen: {
+        relation: Model.HasManyRelation,
+        modelClass: FachGliederung,
+        join: { from: 'eigeneschule_fachklassen.ID', to: 'fach_gliederungen.Fachklasse_ID' }
+      }
+    }
+  }
 }
 class Abschnitt extends Model {
   static get tableName () { return 'schuelerlernabschnittsdaten' }

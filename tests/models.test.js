@@ -144,6 +144,14 @@ describe('Note-Model', () => {
   })
 })
 
+describe('Fachklasse-Model', () => {
+  test('Fachgruppen-Relations werden gefunden', async () => {
+    expect.assertions(1)
+    const s = await Schueler.query().where('ID', 908).eager('fachklasse.fach_gliederungen').first()
+    expect(s.fachklasse.fach_gliederungen[0]).toBeInstanceOf(FachGliederung)
+  })
+})
+
 describe('Fach-Model', () => {
   test('Fach-Relations werden gefunden', async () => {
     expect.assertions(1)

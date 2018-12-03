@@ -36,7 +36,7 @@ const Schild = {
   getSchueler: function (id) {
     return Schueler.query()
       .where('ID', id)
-      .eager('[abschnitte.[noten.fach, lehrer], fachklasse, versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]')
+      .eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]')
       .modifyEager('abschnitte', builder => { builder.orderBy('ID') })
       .first()
   },
@@ -47,7 +47,7 @@ const Schild = {
       // .where(function() {
       //     this.where('Status', 2).orWhere('Status', 8)
       //   })
-      .eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse, versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]')
+      .eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]')
       .modifyEager('schueler', builder => { builder.orderBy('Name') })
       .first()
   },
