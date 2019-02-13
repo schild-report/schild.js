@@ -1,7 +1,5 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
+import autoExternal from 'rollup-plugin-auto-external';
 import pkg from './package.json';
 
 export default [
@@ -12,12 +10,10 @@ export default [
       { file: pkg.module, format: 'es' }
     ],
     plugins: [
-      commonjs(),
-      resolve(),
-      json(),
       babel({
         exclude: ['node_modules/**']
-      })
+      }),
+      autoExternal()
     ]
   }
 ];
