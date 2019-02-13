@@ -1,4 +1,4 @@
-import Schild from '../schild'
+import Schild from '../dist/schild.esm'
 const connectionString = {
   testing: {
     client: 'mysql',

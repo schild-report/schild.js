@@ -2,8 +2,7 @@
 // Then you can simply run the snake_casing code in $parseDatabaseJson or $formatJson
 // $formatJson is called when you res.send(someModel) or JSON.stringify(someModel).
 
-// const _ = require('lodash')
-const { Model } = require('objection')
+import { Model } from 'objection'
 
 class Schueler extends Model {
   static get tableName () { return 'schueler' }
@@ -288,7 +287,8 @@ class Nutzer extends Model {
   static get tableName () { return 'users' }
 }
 
-module.exports = {Schueler,
+export {
+  Schueler,
   Abschnitt,
   Fachklasse,
   Versetzung,
@@ -307,4 +307,5 @@ module.exports = {Schueler,
   Schuelerfoto,
   Schule,
   Nutzer,
-  Jahrgang}
+  Jahrgang
+}

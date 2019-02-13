@@ -1,7 +1,7 @@
 'use strict'
 import Knex from 'knex'
 import { Model } from 'objection'
-import * as Models from './models/Models'
+import * as Models from '../models/Models'
 
 /*
 Vorhandene Models:
