@@ -9,6 +9,7 @@ Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussF
 FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer
 */
 
+export * from '../models/Models'
 export default class Schild {
   constructor () {
     this.options = null

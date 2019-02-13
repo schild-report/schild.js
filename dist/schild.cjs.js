@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var Knex = _interopDefault(require('knex'));
@@ -468,12 +470,6 @@ class Nutzer extends objection.Model {
 
 }
 
-/*
-Vorhandene Models:
-Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
-FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer
-*/
-
 class Schild {
   constructor() {
     this.options = null;
@@ -555,4 +551,24 @@ class Schild {
 
 }
 
-module.exports = Schild;
+exports.default = Schild;
+exports.Schueler = Schueler;
+exports.Abschnitt = Abschnitt;
+exports.Fachklasse = Fachklasse;
+exports.Versetzung = Versetzung;
+exports.Lehrer = Lehrer;
+exports.Note = Note;
+exports.Fach = Fach;
+exports.BKAbschluss = BKAbschluss;
+exports.BKAbschlussFach = BKAbschlussFach;
+exports.AbiAbschluss = AbiAbschluss;
+exports.AbiAbschlussFach = AbiAbschlussFach;
+exports.FHRAbschluss = FHRAbschluss;
+exports.FHRAbschlussFach = FHRAbschlussFach;
+exports.Sprachenfolge = Sprachenfolge;
+exports.FachGliederung = FachGliederung;
+exports.Vermerk = Vermerk;
+exports.Schuelerfoto = Schuelerfoto;
+exports.Schule = Schule;
+exports.Nutzer = Nutzer;
+exports.Jahrgang = Jahrgang;

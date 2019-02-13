@@ -464,12 +464,6 @@ class Nutzer extends Model {
 
 }
 
-/*
-Vorhandene Models:
-Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
-FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer
-*/
-
 class Schild {
   constructor() {
     this.options = null;
@@ -552,3 +546,4 @@ class Schild {
 }
 
 export default Schild;
+export { Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach, FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang };

@@ -1,6 +1,6 @@
 {
   "name": "schild",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "repository": "hmt/schild.js",
   "description": "schild.js bietet eine API zu MySQL/MariaDB Schild-Datenbanken",
   "homepage": "https://github.com/hmt/schild.js",
@@ -10,7 +10,8 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "pretest": "npm run build"
   },
   "files": [
     "dist"

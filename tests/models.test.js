@@ -1,4 +1,7 @@
 import Schild from '../dist/schild.esm'
+import {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
+  FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang} from '../dist/schild.esm'
+
 const connectionString = {
   testing: {
     client: 'mysql',
@@ -16,8 +19,6 @@ const connectionString = {
 const schild = new Schild
 schild.connect(connectionString, 'testing')
 
-const {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
-  FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang} = require('../models/Models')
 
 afterAll(() => {
   schild.disconnect()
