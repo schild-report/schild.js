@@ -1,4 +1,4 @@
-const schild = require('../schild')
+import Schild from '../schild'
 const connectionString = {
   testing: {
     client: 'mysql',
@@ -12,6 +12,8 @@ const connectionString = {
     }
   }
 }
+
+const schild = new Schild
 schild.connect(connectionString, 'testing')
 
 const {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,

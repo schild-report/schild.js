@@ -8,7 +8,8 @@ schild.js bietet eine praktische Schnittstelle für Schild-Datenbanken, der offi
 schild.js ist ein Modul, das mehrere Funktionen für Anfragen an die Schild-Datenbank zur Verfügung stellt:
 
 ```javascript
-const schild = require('schild')
+import Schild from '../schild'
+const schild = new Schild
 schild.connect({
   development: {
     client: 'mysql',
