@@ -470,20 +470,47 @@ class Nutzer extends objection.Model {
 
 }
 
+var Models = /*#__PURE__*/Object.freeze({
+  Schueler: Schueler,
+  Abschnitt: Abschnitt,
+  Fachklasse: Fachklasse,
+  Versetzung: Versetzung,
+  Lehrer: Lehrer,
+  Note: Note,
+  Fach: Fach,
+  BKAbschluss: BKAbschluss,
+  BKAbschlussFach: BKAbschlussFach,
+  AbiAbschluss: AbiAbschluss,
+  AbiAbschlussFach: AbiAbschlussFach,
+  FHRAbschluss: FHRAbschluss,
+  FHRAbschlussFach: FHRAbschlussFach,
+  Sprachenfolge: Sprachenfolge,
+  FachGliederung: FachGliederung,
+  Vermerk: Vermerk,
+  Schuelerfoto: Schuelerfoto,
+  Schule: Schule,
+  Nutzer: Nutzer,
+  Jahrgang: Jahrgang
+});
+
 class Schild {
   constructor() {
     this.options = null;
     this.knex = null;
   }
 
-  connect(knexConfig, env = process.env.NODE_ENV) {
-    this.knex = Knex(knexConfig[env]);
+  connect(knexConfig) {
+    this.knex = Knex(knexConfig);
     objection.Model.knex(this.knex);
     return this.knex;
   }
 
   disconnect() {
     if (this.knex) this.knex.destroy();
+  }
+
+  get models() {
+    return Models;
   }
 
   async testConnection() {

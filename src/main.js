@@ -16,14 +16,18 @@ export default class Schild {
     this.knex = null
   }
 
-  connect (knexConfig, env = process.env.NODE_ENV) {
-    this.knex = Knex(knexConfig[env])
+  connect (knexConfig) {
+    this.knex = Knex(knexConfig)
     Model.knex(this.knex)
     return this.knex
   }
 
   disconnect () {
     if (this.knex) this.knex.destroy()
+  }
+
+  get models () {
+    return Models
   }
 
   async testConnection () {

@@ -1,20 +1,18 @@
 import Schild from '../dist/schild.esm'
 const connectionString = {
-  testing: {
-    client: 'mysql',
-    useNullAsDefault: true,
-    connection: {
-      host: 'localhost',
-      database: 'schild_berufskolleg',
-      user: 'schild',
-      password: 'schild',
-      charset: 'utf8'
-    }
+  client: 'mysql',
+  useNullAsDefault: true,
+  connection: {
+    host: 'localhost',
+    database: 'schild_berufskolleg',
+    user: 'schild',
+    password: 'schild',
+    charset: 'utf8'
   }
 }
 
 const schild = new Schild
-schild.connect(connectionString, 'testing')
+schild.connect(connectionString)
 
 afterAll(() => {
   schild.disconnect()
@@ -24,6 +22,11 @@ describe('schild Methoden', () => {
   test('connection test', async () => {
     expect.assertions(1)
     expect(await schild.testConnection).toBeTruthy()
+  })
+  test('getter models returns instance of test', async () => {
+    expect.assertions(1)
+    const Schueler = await schild.models.Schueler
+    expect(new Schueler).toBeInstanceOf(Schueler)
   })
   test('suche', async () => {
     expect.assertions(2)

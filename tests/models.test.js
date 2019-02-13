@@ -3,16 +3,14 @@ import {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbsch
   FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang} from '../dist/schild.esm'
 
 const connectionString = {
-  testing: {
-    client: 'mysql',
-    useNullAsDefault: true,
-    connection: {
-      host: 'localhost',
-      database: 'schild_berufskolleg',
-      user: 'schild',
-      password: 'schild',
-      charset: 'utf8'
-    }
+  client: 'mysql',
+  useNullAsDefault: true,
+  connection: {
+    host: 'localhost',
+    database: 'schild_berufskolleg',
+    user: 'schild',
+    password: 'schild',
+    charset: 'utf8'
   }
 }
 
