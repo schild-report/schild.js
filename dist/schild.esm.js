@@ -541,24 +541,26 @@ class Schild {
     return schueler.concat(klasse);
   }
 
-  getSchueler(id) {
-    return Schueler.query().where('ID', id).eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]').modifyEager('abschnitte', builder => {
+  async getSchueler(id) {
+    const res = await Schueler.query().where('ID', id).eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]').modifyEager('abschnitte', builder => {
       builder.orderBy('ID');
     }).first();
+    return res.toJSON();
   }
 
-  getKlasse(klasse, jahr, abschnitt) {
-    return Versetzung.query().where('Klasse', klasse) // 2 = aktiv, 8 = mit Abschluss entlassen
-    // .where(function() {
-    //     this.where('Status', 2).orWhere('Status', 8)
-    //   })
-    .eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]').modifyEager('schueler', builder => {
+  async getKlasse(klasse) {
+    const res = await Versetzung.query().where('Klasse', klasse).eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]').modifyEager('schueler', builder => {
       builder.orderBy('Name');
     }).first();
+    return res.toJSON();
   }
 
-  getSchule() {
-    return Schule.query().first();
+  async getSchule() {
+    const res = await Schule.query().first();
+    delete res.SchulLogo;
+    delete res.Einstellungen;
+    delete res.Einstellungen2;
+    return res.toJSON();
   }
 
   async getSchuelerfoto(id) {
@@ -566,8 +568,9 @@ class Schild {
     return Buffer.from(data.Foto, 'binary').toString('base64');
   }
 
-  getNutzer(username) {
-    return Nutzer.query().where('US_LoginName', username).first();
+  async getNutzer(username) {
+    const res = await Nutzer.query().where('US_LoginName', username).first();
+    return res.toJSON();
   }
 
 }

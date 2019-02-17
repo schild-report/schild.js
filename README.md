@@ -30,29 +30,52 @@ Zwei Parameter sind vorgesehen, das Konfigurationsobjekt und, wenn man die Konfi
 Momentan stellt schild.js ein paar Funktionen zur Verfügung, die zur Suche und Auswahl von einzelnen Schülern, bzw. Schülergruppen hilfreich sind. Als Rückgabewert, wird ein Promise geliefert:
 
 ```javascript
-schild.connect(konfigurationsobjekt, [property-auswahl])
-// -> verbindet schild.js mit der Datenbank
+import Schild from 'schild'
 
-schild.disconnect()
-// -> trennt die Verbindung zur Datenbank
+(async () => {
+  const schild = new Schild
+  const konfigurationsobjekt = {
+    client: 'mysql',
+    useNullAsDefault: true,
+    connection: {
+      host: 'localhost',
+      database: 'schild_berufskolleg',
+      user: 'schild',
+      password: 'schild',
+      charset: 'utf8'
+    }
+  }
 
-schild.testConnection()
-// -> prüft, ob die Datenbankverbindung funktioniert. Gibt _true_ bzw _false_ zurück
+  schild.connect(konfigurationsobjekt)
+  // -> verbindet schild.js mit der Datenbank
 
-schild.suche('Muster').then( res => console.log(res))
-// -> gibt ein Array mit Klassen- und Schülertreffern zurück. Jeweils als JSON
+  const test = await schild.testConnection()
+  console.log(test)
+  // -> prüft, ob die Datenbankverbindung funktioniert. Gibt _true_ bzw _false_ zurück
 
-schild.getSchueler(id).then( res => console.log(res))
-// -> gibt einen Schüler als JSON-Objekt zurück mit der ID <id>
+  const res = await schild.suche('Muster')
+  console.log(res)
+  // -> gibt ein Array mit Klassen- und Schülertreffern zurück. Jeweils als JSON
 
-schild.getKlasse(klasse, jahr, abschnitt).then( res => console.log(res))
-// -> sucht alle Schüler, die im Jahr <jahr>, im Abschnitt <abschnitt> in Klasse <klasse> waren/sind
+  const schueler = await schild.getSchueler(id)
+  console.log(schueler)
+  // -> gibt einen Schüler als JSON-Objekt zurück mit der ID <id>
 
-schild.getSchule().then( res => console.log(res))
-// -> gibt ein JSON-Objekt mit allen in der Schultabelle abgelegten Daten zurück
+  const klasse = await schild.getKlasse(klasse, jahr, abschnitt)
+  console.log(klasse)
+  // -> sucht alle Schüler, die im Jahr <jahr>, im Abschnitt <abschnitt> in Klasse <klasse> waren/sind
 
-schild.getSchuelerfoto(id).then( res => console.log(res))
-// -> gibt als base64-String ein Schülerfoto des Schülers mit der ID <id> zurück
+  onst schule = await schild.getSchule()
+  console.log(schule)
+  // -> gibt ein JSON-Objekt mit allen in der Schultabelle abgelegten Daten zurück
+
+  const foto = await schild.getSchuelerfoto(id).then( res => console.log(res))
+  console.log(foto)
+  // -> gibt als base64-String ein Schülerfoto des Schülers mit der ID <id> zurück
+
+  schild.disconnect()
+  // -> trennt die Verbindung zur Datenbank
+})()
 ```
 
 Die Tests funktionieren leider nur mit einer privaten Schild-Datenbank.
