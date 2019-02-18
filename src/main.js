@@ -32,7 +32,7 @@ export default class Schild {
 
   async testConnection () {
     try {
-      await knex.raw('select 1+1 as result')
+      await this.knex.raw('select 1+1 as result')
       console.log('Testverbindung konnte aufgebaut werden')
       return true
     }

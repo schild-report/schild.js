@@ -21,7 +21,7 @@ afterAll(() => {
 describe('schild Methoden', () => {
   test('connection test', async () => {
     expect.assertions(1)
-    expect(await schild.testConnection).toBeTruthy()
+    expect(await schild.testConnection()).toBeTruthy()
   })
   test('getter models returns instance of test', async () => {
     expect.assertions(1)
