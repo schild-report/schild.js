@@ -19,6 +19,10 @@ afterAll(() => {
 })
 
 describe('schild Methoden', () => {
+  test('connection fail connection', async () => {
+    expect.assertions(1)
+    expect(() => schild.connect({})).toThrowError(/knex/)
+  })
   test('connection test', async () => {
     expect.assertions(1)
     expect(await schild.testConnection()).toBeTruthy()

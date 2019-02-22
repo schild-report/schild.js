@@ -494,9 +494,13 @@ class Schild {
   }
 
   connect(knexConfig) {
-    this.knex = Knex(knexConfig);
-    Model.knex(this.knex);
-    return this.knex;
+    try {
+      this.knex = Knex(knexConfig);
+      Model.knex(this.knex);
+      return this.knex;
+    } catch (e) {
+      throw e;
+    }
   }
 
   disconnect() {
@@ -520,57 +524,81 @@ class Schild {
   }
 
   async suche(pattern) {
-    const schueler = await Schueler.query().where(function () {
-      this.where('Geloescht', '-').andWhere('Gesperrt', '-');
-    }).andWhere(function () {
-      this.where('Vorname', 'like', pattern + '%').orWhere('Name', 'like', pattern + '%');
-    }).select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID').orderBy('AktSchuljahr', 'desc').map(s => {
-      return {
-        value: `${s.Name}, ${s.Vorname} (${s.Klasse})`,
-        status: s.Status,
-        jahr: s.AktSchuljahr,
-        id: s.ID
-      };
-    });
-    const klasse = await Versetzung.query().where('Klasse', 'like', pattern + '%').select('Klasse').orderBy('Klasse', 'desc').map(k => {
-      return {
-        value: k.Klasse,
-        id: k.Klasse
-      };
-    });
-    return schueler.concat(klasse);
+    try {
+      const schueler = await Schueler.query().where(function () {
+        this.where('Geloescht', '-').andWhere('Gesperrt', '-');
+      }).andWhere(function () {
+        this.where('Vorname', 'like', pattern + '%').orWhere('Name', 'like', pattern + '%');
+      }).select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID').orderBy('AktSchuljahr', 'desc').map(s => {
+        return {
+          value: `${s.Name}, ${s.Vorname} (${s.Klasse})`,
+          status: s.Status,
+          jahr: s.AktSchuljahr,
+          id: s.ID
+        };
+      });
+      const klasse = await Versetzung.query().where('Klasse', 'like', pattern + '%').select('Klasse').orderBy('Klasse', 'desc').map(k => {
+        return {
+          value: k.Klasse,
+          id: k.Klasse
+        };
+      });
+      return schueler.concat(klasse);
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getSchueler(id) {
-    const res = await Schueler.query().where('ID', id).eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]').modifyEager('abschnitte', builder => {
-      builder.orderBy('ID');
-    }).first();
-    return res.toJSON();
+    try {
+      const res = await Schueler.query().where('ID', id).eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]').modifyEager('abschnitte', builder => {
+        builder.orderBy('ID');
+      }).first();
+      return res.toJSON();
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getKlasse(klasse) {
-    const res = await Versetzung.query().where('Klasse', klasse).eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]').modifyEager('schueler', builder => {
-      builder.orderBy('Name');
-    }).first();
-    return res.toJSON();
+    try {
+      const res = await Versetzung.query().where('Klasse', klasse).eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]').modifyEager('schueler', builder => {
+        builder.orderBy('Name');
+      }).first();
+      return res.toJSON();
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getSchule() {
-    const res = await Schule.query().first();
-    delete res.SchulLogo;
-    delete res.Einstellungen;
-    delete res.Einstellungen2;
-    return res.toJSON();
+    try {
+      const res = await Schule.query().first();
+      delete res.SchulLogo;
+      delete res.Einstellungen;
+      delete res.Einstellungen2;
+      return res.toJSON();
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getSchuelerfoto(id) {
-    const data = await Schuelerfoto.query().where('Schueler_ID', id).first();
-    return Buffer.from(data.Foto, 'binary').toString('base64');
+    try {
+      const data = await Schuelerfoto.query().where('Schueler_ID', id).first();
+      return Buffer.from(data.Foto, 'binary').toString('base64');
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getNutzer(username) {
-    const res = await Nutzer.query().where('US_LoginName', username).first();
-    return res.toJSON();
+    try {
+      const res = await Nutzer.query().where('US_LoginName', username).first();
+      return res.toJSON();
+    } catch (e) {
+      throw e;
+    }
   }
 
 }
