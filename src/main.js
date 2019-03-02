@@ -90,7 +90,7 @@ export default class Schild {
       .eager(`[abschnitte.[noten.fach, lehrer],
               fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
               bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
-              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen]
+              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach]
             `)
       .modifyEager('abschnitte', builder => { builder.orderBy('ID') })
       .first()
@@ -107,7 +107,7 @@ export default class Schild {
       .eager(`[schueler.[abschnitte.[noten.fach, lehrer],
               fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
               bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
-              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen], fachklasse,
+              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach], fachklasse,
               jahrgang]
             `)
       .modifyEager('schueler', builder => { builder.orderBy('Name') })
