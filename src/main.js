@@ -5,8 +5,10 @@ import * as Models from '../models/Models'
 
 /*
 Vorhandene Models:
-Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
-FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer
+Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss,
+BKAbschlussFach, AbiAbschluss, AbiAbschlussFach, FHRAbschluss,
+FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto,
+Schule, Nutzer
 */
 
 export * from '../models/Models'
@@ -50,8 +52,14 @@ export default class Schild {
   async suche (pattern) {
     try {
       const schueler = await Models.Schueler.query()
-      .where(function () { this.where('Geloescht', '-').andWhere('Gesperrt', '-') })
-      .andWhere(function () { this.where('Vorname', 'like', pattern + '%').orWhere('Name', 'like', pattern + '%') })
+      .where(function () {
+        this.where('Geloescht', '-')
+        .andWhere('Gesperrt', '-')
+      })
+      .andWhere(function () {
+        this.where('Vorname', 'like', pattern + '%')
+        .orWhere('Name', 'like', pattern + '%')
+      })
       .select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID')
       .orderBy('AktSchuljahr', 'desc')
       .map(s => {
@@ -79,7 +87,11 @@ export default class Schild {
     try {
       const res = await Models.Schueler.query()
       .where('ID', id)
-      .eager('[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke]')
+      .eager(`[abschnitte.[noten.fach, lehrer],
+              fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
+              bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
+              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen]
+            `)
       .modifyEager('abschnitte', builder => { builder.orderBy('ID') })
       .first()
       return res.toJSON()
@@ -92,7 +104,12 @@ export default class Schild {
     try {
       const res = await Models.Versetzung.query()
       .where('Klasse', klasse)
-      .eager('[schueler.[abschnitte.[noten.fach, lehrer], fachklasse.[fach_gliederungen], versetzung, bk_abschluss, bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach, abi_abschluss, abi_abschluss_faecher.fach, vermerke], fachklasse, jahrgang]')
+      .eager(`[schueler.[abschnitte.[noten.fach, lehrer],
+              fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
+              bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
+              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen], fachklasse,
+              jahrgang]
+            `)
       .modifyEager('schueler', builder => { builder.orderBy('Name') })
       .first()
       return res.toJSON()
