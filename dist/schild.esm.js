@@ -613,4 +613,4 @@ class Schild {
 }
 
 export default Schild;
-export { Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach, FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang };
+export { AbiAbschluss, AbiAbschlussFach, Abschnitt, BKAbschluss, BKAbschlussFach, FHRAbschluss, FHRAbschlussFach, Fach, FachGliederung, Fachklasse, Jahrgang, Lehrer, Note, Nutzer, Schueler, Schuelerfoto, Schule, Sprachenfolge, Vermerk, Versetzung };

@@ -618,24 +618,24 @@ class Schild {
 
 }
 
-exports.default = Schild;
-exports.Schueler = Schueler;
-exports.Abschnitt = Abschnitt;
-exports.Fachklasse = Fachklasse;
-exports.Versetzung = Versetzung;
-exports.Lehrer = Lehrer;
-exports.Note = Note;
-exports.Fach = Fach;
-exports.BKAbschluss = BKAbschluss;
-exports.BKAbschlussFach = BKAbschlussFach;
 exports.AbiAbschluss = AbiAbschluss;
 exports.AbiAbschlussFach = AbiAbschlussFach;
+exports.Abschnitt = Abschnitt;
+exports.BKAbschluss = BKAbschluss;
+exports.BKAbschlussFach = BKAbschlussFach;
 exports.FHRAbschluss = FHRAbschluss;
 exports.FHRAbschlussFach = FHRAbschlussFach;
-exports.Sprachenfolge = Sprachenfolge;
+exports.Fach = Fach;
 exports.FachGliederung = FachGliederung;
-exports.Vermerk = Vermerk;
+exports.Fachklasse = Fachklasse;
+exports.Jahrgang = Jahrgang;
+exports.Lehrer = Lehrer;
+exports.Note = Note;
+exports.Nutzer = Nutzer;
+exports.Schueler = Schueler;
 exports.Schuelerfoto = Schuelerfoto;
 exports.Schule = Schule;
-exports.Nutzer = Nutzer;
-exports.Jahrgang = Jahrgang;
+exports.Sprachenfolge = Sprachenfolge;
+exports.Vermerk = Vermerk;
+exports.Versetzung = Versetzung;
+exports.default = Schild;
