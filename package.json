@@ -26,7 +26,7 @@
   "author": "hmt",
   "license": "ISC",
   "dependencies": {
-    "knex": "^0.17.6",
+    "knex": "^0.19.0",
     "mysql": "^2.17.1",
     "objection": "^1.6.9"
   },
