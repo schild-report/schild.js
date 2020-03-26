@@ -1,14 +1,12 @@
 # schild.js
 
-Bitte beachte, schild.js ist definitiv **beta**.
-
 schild.js bietet eine praktische Schnittstelle für Schild-Datenbanken, der offiziellen Schulverwaltungssoftware für NRW. Es sollte im Browser und unter node.js laufen.
 
 ## Anwendung
 schild.js ist ein Modul, das mehrere Funktionen für Anfragen an die Schild-Datenbank zur Verfügung stellt:
 
 ```javascript
-import Schild from '../schild'
+import { Schild } from 'schild'
 const schild = new Schild
 schild.connect({
   development: {
@@ -30,7 +28,7 @@ Zwei Parameter sind vorgesehen, das Konfigurationsobjekt und, wenn man die Konfi
 Momentan stellt schild.js ein paar Funktionen zur Verfügung, die zur Suche und Auswahl von einzelnen Schülern, bzw. Schülergruppen hilfreich sind. Als Rückgabewert, wird ein Promise geliefert:
 
 ```javascript
-import Schild from 'schild'
+import { Schild } from 'schild'
 
 (async () => {
   const schild = new Schild
@@ -81,8 +79,6 @@ import Schild from 'schild'
 Die Tests funktionieren leider nur mit einer privaten Schild-Datenbank.
 
 Bei Interesse an schild.js hinterlasse bitte eine Nachricht an dev@hmt.im
-
-schild.js wird derzeit in einem weiteren Reporting-Tool getestet, das auf electron basiert und damit die zwar serverbasierte, aber hervorragend funktionierende [Lösung](https://github.com/hmt/sahib) mit Ruby ([Demo](https://sahib.hmt.im/)) als Desktop-Client ersetzen kann. Bei weiterem Interesse bitte ebenfalls melden.
 
 ## Lizenz
 schild.js von HMT ist lizenziert unter der ISC-Lizenz.
