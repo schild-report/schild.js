@@ -464,40 +464,16 @@ class Nutzer extends Model {
 
 }
 
-var Models = /*#__PURE__*/Object.freeze({
-  Schueler: Schueler,
-  Abschnitt: Abschnitt,
-  Fachklasse: Fachklasse,
-  Versetzung: Versetzung,
-  Lehrer: Lehrer,
-  Note: Note,
-  Fach: Fach,
-  BKAbschluss: BKAbschluss,
-  BKAbschlussFach: BKAbschlussFach,
-  AbiAbschluss: AbiAbschluss,
-  AbiAbschlussFach: AbiAbschlussFach,
-  FHRAbschluss: FHRAbschluss,
-  FHRAbschlussFach: FHRAbschlussFach,
-  Sprachenfolge: Sprachenfolge,
-  FachGliederung: FachGliederung,
-  Vermerk: Vermerk,
-  Schuelerfoto: Schuelerfoto,
-  Schule: Schule,
-  Nutzer: Nutzer,
-  Jahrgang: Jahrgang
-});
-
 class Schild {
   constructor() {
     this.options = null;
     this.knex = null;
   }
 
-  connect(knexConfig) {
+  async connect(knexConfig) {
     try {
-      this.knex = Knex(knexConfig);
+      this.knex = await Knex(knexConfig);
       Model.knex(this.knex);
-      return this.knex;
     } catch (e) {
       throw e;
     }
@@ -505,10 +481,6 @@ class Schild {
 
   disconnect() {
     if (this.knex) this.knex.destroy();
-  }
-
-  get models() {
-    return Models;
   }
 
   async testConnection() {
@@ -519,17 +491,21 @@ class Schild {
     } catch (err) {
       console.log(err);
       console.log('Testverbindung konnte nicht aufgebaut werden');
-      return false;
+      throw err;
     }
   }
 
   async suche(pattern) {
+    const pattern_w = pattern + '%';
+
     try {
-      const schueler = await Schueler.query().where(function () {
-        this.where('Geloescht', '-').andWhere('Gesperrt', '-');
-      }).andWhere(function () {
-        this.where('Vorname', 'like', pattern + '%').orWhere('Name', 'like', pattern + '%');
-      }).select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID').orderBy('AktSchuljahr', 'desc').map(s => {
+      const sres = await Schueler.query().whereRaw(`
+        Geloescht='-'
+          AND Gesperrt='-'
+          AND (CONCAT(Vorname,' ',Name) LIKE ?
+            OR CONCAT(Name,', ',Vorname) LIKE ?)
+          `, [pattern_w, pattern_w]).select('Name', 'Vorname', 'Klasse', 'Status', 'AktSchuljahr', 'ID').orderBy('AktSchuljahr', 'desc');
+      const schueler = sres.map(s => {
         return {
           value: `${s.Name}, ${s.Vorname} (${s.Klasse})`,
           status: s.Status,
@@ -537,13 +513,14 @@ class Schild {
           id: s.ID
         };
       });
-      const klasse = await Versetzung.query().where('Klasse', 'like', pattern + '%').select('Klasse').orderBy('Klasse', 'desc').map(k => {
+      const kres = await Versetzung.query().where('Klasse', 'like', pattern + '%').select('Klasse').orderBy('Klasse', 'desc');
+      const klassen = kres.map(k => {
         return {
           value: k.Klasse,
           id: k.Klasse
         };
       });
-      return schueler.concat(klasse);
+      return schueler.concat(klassen);
     } catch (e) {
       throw e;
     }
@@ -551,11 +528,14 @@ class Schild {
 
   async getSchueler(id) {
     try {
-      const res = await Schueler.query().where('ID', id).eager(`[abschnitte.[noten.fach, lehrer],
-              fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
-              bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
-              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach]
-            `).modifyEager('abschnitte', builder => {
+      const res = await Schueler.query().where(function () {
+        this.where('Geloescht', '-').andWhere('Gesperrt', '-').andWhere('ID', id);
+      }).withGraphFetched(`
+          [abschnitte.[noten.fach, lehrer],
+          fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
+          bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
+          abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach]
+        `).modifyGraph('abschnitte', builder => {
         builder.orderBy('ID');
       }).first();
       return res.toJSON();
@@ -566,13 +546,16 @@ class Schild {
 
   async getKlasse(klasse) {
     try {
-      const res = await Versetzung.query().where('Klasse', klasse).eager(`[schueler.[abschnitte.[noten.fach, lehrer],
-              fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
-              bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
-              abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach], fachklasse,
-              jahrgang]
-            `).modifyEager('schueler', builder => {
-        builder.orderBy('Name');
+      const res = await Versetzung.query().where('Klasse', klasse).withGraphFetched(`
+          [schueler.[abschnitte.[noten.fach, lehrer],
+          fachklasse.[fach_gliederungen], versetzung, bk_abschluss,
+          bk_abschluss_faecher.fach, fhr_abschluss, fhr_abschluss_faecher.fach,
+          abi_abschluss, abi_abschluss_faecher.fach, vermerke, sprachenfolgen.fach], fachklasse,
+          jahrgang]
+        `).modifyGraph('schueler', builder => {
+        builder.where(function () {
+          this.where('Geloescht', '-').andWhere('Gesperrt', '-');
+        }).orderBy('Name');
       }).first();
       return res.toJSON();
     } catch (e) {
@@ -612,5 +595,4 @@ class Schild {
 
 }
 
-export default Schild;
-export { AbiAbschluss, AbiAbschlussFach, Abschnitt, BKAbschluss, BKAbschlussFach, FHRAbschluss, FHRAbschlussFach, Fach, FachGliederung, Fachklasse, Jahrgang, Lehrer, Note, Nutzer, Schueler, Schuelerfoto, Schule, Sprachenfolge, Vermerk, Versetzung };
+export { AbiAbschluss, AbiAbschlussFach, Abschnitt, BKAbschluss, BKAbschlussFach, FHRAbschluss, FHRAbschlussFach, Fach, FachGliederung, Fachklasse, Jahrgang, Lehrer, Note, Nutzer, Schild, Schueler, Schuelerfoto, Schule, Sprachenfolge, Vermerk, Versetzung };

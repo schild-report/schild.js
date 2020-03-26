@@ -1,4 +1,4 @@
-import Schild from '../dist/schild.esm'
+import { Schild } from '../dist/schild.esm'
 import {Schueler, Abschnitt, Fachklasse, Versetzung, Lehrer, Note, Fach, BKAbschluss, BKAbschlussFach, AbiAbschluss, AbiAbschlussFach,
   FHRAbschluss, FHRAbschlussFach, Sprachenfolge, FachGliederung, Vermerk, Schuelerfoto, Schule, Nutzer, Jahrgang} from '../dist/schild.esm'
 
@@ -49,7 +49,7 @@ describe('Schüler Model', () => {
   })
   test('berufsbezeichnung_mw geht', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 1).eager('fachklasse').first()
+    const s = await Schueler.query().where('ID', 1).withGraphFetched('fachklasse').first()
     expect(s.berufsbezeichnung_mw).toEqual('Staatlich anerkannte Erzieherin - praxisintegrierte Form')
   })
   test('berufsbezeichnung_mw geht nicht', async () => {
@@ -70,7 +70,7 @@ describe('Schüler Model', () => {
   })
   test('Schüler-Relations werden gefunden', async () => {
     expect.assertions(4)
-    const s = await Schueler.query().where('ID', 995).eager('[abschnitte, fachklasse, bk_abschluss, bk_abschluss_faecher]').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('[abschnitte, fachklasse, bk_abschluss, bk_abschluss_faecher]').first()
     expect(s.abschnitte[0]).toBeInstanceOf(Abschnitt)
     expect(s.fachklasse).toBeInstanceOf(Fachklasse)
     expect(s.bk_abschluss).toBeInstanceOf(BKAbschluss)
@@ -78,34 +78,34 @@ describe('Schüler Model', () => {
   })
   test('Abi-Relations werden gefunden', async () => {
     expect.assertions(2)
-    const s = await Schueler.query().where('ID', 279).eager('[abi_abschluss, abi_abschluss_faecher]').first()
+    const s = await Schueler.query().where('ID', 279).withGraphFetched('[abi_abschluss, abi_abschluss_faecher]').first()
     expect(s.abi_abschluss).toBeInstanceOf(AbiAbschluss)
     expect(s.abi_abschluss_faecher[0]).toBeInstanceOf(AbiAbschlussFach)
   })
   test('FHR-Relations werden gefunden', async () => {
     expect.assertions(2)
-    const s = await Schueler.query().where('ID', 120).eager('[fhr_abschluss, fhr_abschluss_faecher]').first()
+    const s = await Schueler.query().where('ID', 120).withGraphFetched('[fhr_abschluss, fhr_abschluss_faecher]').first()
     expect(s.fhr_abschluss).toBeInstanceOf(FHRAbschluss)
     expect(s.fhr_abschluss_faecher[0]).toBeInstanceOf(FHRAbschlussFach)
   })
   test('Sprachenfolge-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 8).eager('sprachenfolgen').first()
+    const s = await Schueler.query().where('ID', 8).withGraphFetched('sprachenfolgen').first()
     expect(s.sprachenfolgen[0]).toBeInstanceOf(Sprachenfolge)
   })
   test('Schuelerfoto-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 34).eager('schuelerfoto').first()
+    const s = await Schueler.query().where('ID', 34).withGraphFetched('schuelerfoto').first()
     expect(s.schuelerfoto).toBeInstanceOf(Schuelerfoto)
   })
   test('Vermerk-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 341).eager('vermerke').first()
+    const s = await Schueler.query().where('ID', 341).withGraphFetched('vermerke').first()
     expect(s.vermerke[0]).toBeInstanceOf(Vermerk)
   })
   test('Versetzung-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 341).eager('versetzung').first()
+    const s = await Schueler.query().where('ID', 341).withGraphFetched('versetzung').first()
     expect(s.versetzung).toBeInstanceOf(Versetzung)
   })
 })
@@ -113,26 +113,26 @@ describe('Schüler Model', () => {
 describe('Abschnitt-Model', () => {
   test('Abschnitt-Relations werden gefunden', async () => {
     expect.assertions(3)
-    const s = await Schueler.query().where('ID', 995).eager('abschnitte.[lehrer, fachklasse, noten]').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('abschnitte.[lehrer, fachklasse, noten]').first()
     expect(s.abschnitte[0].lehrer).toBeInstanceOf(Lehrer)
     expect(s.abschnitte[0].fachklasse).toBeInstanceOf(Fachklasse)
     expect(s.abschnitte[0].noten[0]).toBeInstanceOf(Note)
   })
   test('V. Name des Klassenlehrers', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 1995).eager('abschnitte.[lehrer]').first()
+    const s = await Schueler.query().where('ID', 1995).withGraphFetched('abschnitte.[lehrer]').first()
     expect(s.abschnitte[0].v_name_klassenlehrer).toContain('B. De')
   })
   test('Klassenlehrer oder Klassenlehrerin', async () => {
     expect.assertions(2)
-    const s = await Schueler.query().where('ID', 2405).eager('abschnitte.[lehrer]').first()
+    const s = await Schueler.query().where('ID', 2405).withGraphFetched('abschnitte.[lehrer]').first()
     expect(s.abschnitte[0].klassenlehrer_in).toEqual('Klassenlehrerin')
-    const ss = await Schueler.query().where('ID', 1598).eager('abschnitte.[lehrer]').first()
+    const ss = await Schueler.query().where('ID', 1598).withGraphFetched('abschnitte.[lehrer]').first()
     expect(ss.abschnitte[0].klassenlehrer_in).toEqual('Klassenlehrer')
   })
   test('Schuljahr im Format 2015/16 ausgeben', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 995).eager('abschnitte').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('abschnitte').first()
     expect(s.abschnitte[0].schuljahr).toEqual('2014/15')
   })
 })
@@ -140,7 +140,7 @@ describe('Abschnitt-Model', () => {
 describe('Note-Model', () => {
   test('Note-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 995).eager('abschnitte.noten.fach').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('abschnitte.noten.fach').first()
     expect(s.abschnitte[0].noten[0].fach).toBeInstanceOf(Fach)
   })
 })
@@ -148,7 +148,7 @@ describe('Note-Model', () => {
 describe('Fachklasse-Model', () => {
   test('Fachgruppen-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 908).eager('fachklasse.fach_gliederungen').first()
+    const s = await Schueler.query().where('ID', 908).withGraphFetched('fachklasse.fach_gliederungen').first()
     expect(s.fachklasse.fach_gliederungen[0]).toBeInstanceOf(FachGliederung)
   })
 })
@@ -156,7 +156,7 @@ describe('Fachklasse-Model', () => {
 describe('Fach-Model', () => {
   test('Fach-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 908).eager('abschnitte.noten.fach.fach_gliederungen').first()
+    const s = await Schueler.query().where('ID', 908).withGraphFetched('abschnitte.noten.fach.fach_gliederungen').first()
     expect(s.abschnitte[0].noten[0].fach.fach_gliederungen[0]).toBeInstanceOf(FachGliederung)
   })
 })
@@ -164,7 +164,7 @@ describe('Fach-Model', () => {
 describe('BKAbschlussFach-Model', () => {
   test('BKAbschlussFach-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 995).eager('bk_abschluss_faecher.fach').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('bk_abschluss_faecher.fach').first()
     expect(s.bk_abschluss_faecher[0].fach).toBeInstanceOf(Fach)
   })
 })
@@ -172,7 +172,7 @@ describe('BKAbschlussFach-Model', () => {
 describe('AbiAbschlussFach-Model', () => {
   test('AbiAbschlussFach-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 279).eager('abi_abschluss_faecher.fach').first()
+    const s = await Schueler.query().where('ID', 279).withGraphFetched('abi_abschluss_faecher.fach').first()
     expect(s.abi_abschluss_faecher[0].fach).toBeInstanceOf(Fach)
   })
 })
@@ -180,7 +180,7 @@ describe('AbiAbschlussFach-Model', () => {
 describe('FHRAbschlussFach-Model', () => {
   test('FHRAbschlussFach-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 120).eager('fhr_abschluss_faecher.fach').first()
+    const s = await Schueler.query().where('ID', 120).withGraphFetched('fhr_abschluss_faecher.fach').first()
     expect(s.fhr_abschluss_faecher[0].fach).toBeInstanceOf(Fach)
   })
 })
@@ -188,7 +188,7 @@ describe('FHRAbschlussFach-Model', () => {
 describe('Sprachenfolge-Model', () => {
   test('Sprachenfolge-Relations werden gefunden', async () => {
     expect.assertions(1)
-    const s = await Schueler.query().where('ID', 8).eager('sprachenfolgen.fach').first()
+    const s = await Schueler.query().where('ID', 8).withGraphFetched('sprachenfolgen.fach').first()
     expect(s.sprachenfolgen[0].fach).toBeInstanceOf(Fach)
   })
 })
@@ -196,7 +196,7 @@ describe('Sprachenfolge-Model', () => {
 describe('Versetzung-Model', () => {
   test('Versetzung-Relations werden gefunden', async () => {
     expect.assertions(4)
-    const k = await Versetzung.query().where('Klasse', 'B15B2').eager('[schueler, fachklasse]').first()
+    const k = await Versetzung.query().where('Klasse', 'B15B2').withGraphFetched('[schueler, fachklasse]').first()
     expect(k.schueler[0]).toBeInstanceOf(Schueler)
     expect(k.schueler).toHaveLength(18)
     expect(k.fachklasse).toBeInstanceOf(Fachklasse)
@@ -241,7 +241,7 @@ describe('alle Models durchtesten', () => {
 describe('JSON enthält alle virtuellen Properties', () => {
   test('alles durchchecken', async () => {
     expect.assertions(3)
-    const s = await Schueler.query().where('ID', 995).eager('[abschnitte, fachklasse, bk_abschluss, bk_abschluss_faecher]').first()
+    const s = await Schueler.query().where('ID', 995).withGraphFetched('[abschnitte, fachklasse, bk_abschluss, bk_abschluss_faecher]').first()
     expect(s.toJSON().schueler_in).toEqual('Schülerin')
     expect(s.toJSON().anrede).toEqual('Frau')
     expect(s.toJSON().studierende_r).toEqual('Studierende')
