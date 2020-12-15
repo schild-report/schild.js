@@ -2,10 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var Knex = _interopDefault(require('knex'));
+var Knex = require('knex');
 var objection = require('objection');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var Knex__default = /*#__PURE__*/_interopDefaultLegacy(Knex);
 
 class Schueler extends objection.Model {
   static get tableName() {
@@ -478,7 +480,7 @@ class Schild {
 
   async connect(knexConfig) {
     try {
-      this.knex = await Knex(knexConfig);
+      this.knex = await Knex__default['default'](knexConfig);
       objection.Model.knex(this.knex);
     } catch (e) {
       throw e;

@@ -208,7 +208,7 @@ describe('Schule Model', () => {
   test('Schulleiter_In geht', async () => {
     expect.assertions(1)
     const s = await Schule.query().where('ID', 1).first()
-    expect(s.schulleiter_in).toEqual('Schulleiter')
+    expect(s.schulleiter_in).toEqual('Schulleiterin')
   })
 })
 
