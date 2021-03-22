@@ -1,6 +1,6 @@
 {
   "name": "schild",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "repository": "hmt/schild.js",
   "description": "schild.js bietet eine API zu MySQL/MariaDB Schild-Datenbanken",
   "homepage": "https://github.com/hmt/schild.js",
@@ -26,7 +26,7 @@
   "author": "hmt",
   "license": "ISC",
   "dependencies": {
-    "knex": "^0.21.13",
+    "knex": "^0.95.2",
     "mysql": "^2.18.1",
     "objection": "^2.1.3"
   },
