@@ -1,4 +1,3 @@
-'use strict'
 // Then you can simply run the snake_casing code in $parseDatabaseJson or $formatJson
 // $formatJson is called when you res.send(someModel) or JSON.stringify(someModel).
 
@@ -9,11 +8,6 @@ class Schueler extends Model {
   static get virtualAttributes () {
     return ['anrede', 'akt_halbjahr', 'schueler_in', 'studierende_r', 'berufsbezeichnung_mw', 'volljaehrig']
   }
-  // get akt_halbjahr () {
-  //   if (this.abschnitte) {
-  //     return _.last(this.abschnitte)
-  //   }
-  // }
   get anrede () {
     return (this.Geschlecht === 3 ? 'Herr' : 'Frau')
   }
@@ -119,10 +113,10 @@ class Abschnitt extends Model {
     return ['v_name_klassenlehrer', 'klassenlehrer_in', 'schuljahr']
   }
   get v_name_klassenlehrer () {
-    if (this.lehrer) return `${this.lehrer.Vorname[0]}. ${this.lehrer.Nachname}`
+    return `${this.lehrer?.Vorname?.[0]}. ${this.lehrer?.Nachname}`
   }
   get klassenlehrer_in () {
-    if (this.lehrer) return (this.lehrer.Geschlecht === '3' ? 'Klassenlehrer' : 'Klassenlehrerin')
+    return (this.lehrer?.Geschlecht === '3' ? 'Klassenlehrer' : 'Klassenlehrerin')
   }
   get schuljahr () {
     return `${this.Jahr}/${this.Jahr - 1999}`

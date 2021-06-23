@@ -1,4 +1,3 @@
-"use strict";
 import Knex from "knex";
 import { Model } from "objection";
 import { Schueler, Versetzung, Schule, Schuelerfoto, Nutzer } from '../models/Models'
